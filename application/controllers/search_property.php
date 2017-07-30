@@ -28,7 +28,8 @@ class Search_Property extends CI_Controller {
        {
            // create a row of datatable
            $sub_array = array();
-           $sub_array[] = $row->property_id;
+           
+           $sub_array[] = "<label><input type='radio' id='deal_property_id' name='property_id' value='$row->property_id'></label>";           
            $sub_array[] = $row->property_type_name;           
            $sub_array[] = $row->key_number;           
            $sub_array[] = $row->owner_name;           
@@ -51,6 +52,7 @@ class Search_Property extends CI_Controller {
        );
        echo json_encode($output);
    } // end of propertyGrid
+
     /**************************************************************************/
     public function getPropertiesTable()
     {

@@ -16,13 +16,13 @@ class Model_search_Property extends CI_Model {
     var $data_source = 'v_property_data'; // a view that contains data 
     
     // column to allow order features
-    var $order_column = array('property_id', 'property_type_name', 'key_number', 'owner_name',
-        'owner_phone', 'area_name', 'requested_price', 'installment_price', 'floor', 'area', 'status_name');
+    var $order_column = array(null, 'property_type_name', 'key_number', 'owner_name',
+        'owner_phone', 'area_name', 'requested_price', 'installment_price', 'floor', 'area', null);
     
     public function make_query()
     {
         $this->db->select($this->select_column);
-        $this->db->form($this->data_source);
+        $this->db->from($this->data_source);
         
         // define in which column to search 
         if (isset($_POST["search"]["value"]))

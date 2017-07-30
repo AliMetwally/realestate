@@ -17,30 +17,7 @@ if ($properties) {?>
                 <!--<th></th>-->
             </tr>
         </thead>
-        <tbody id="property_deal_data">
-            <?php foreach ($properties as $property) { 
-            $tower_id = $property->tower_id;
-                        if($tower_id > '0') {$tower_link = base_url("sales/displaytower/$tower_id");}
-                        else
-                        {$tower_link = '/#';}
-            ?>
-            <tr>
-                <td><label><input type="radio" id="deal_property_id" name="property_id" value="<?= $property->property_id?>"></label></td>
-                <td><?= $property->property_type_name?></td>
-                <td><?= $property->key_number?></td>
-                <!--<td><a target="_blank" href="<?=$tower_link?>"><?= $property->owner_name?></a></td>-->
-                <td><?= $property->owner_name?></td>
-                <td><?= $property->owner_phone?></td>
-                <td><?= $property->area_name?></td>                
-                <td><?= $property->requested_price?></td>
-                <td><?= $property->installment_price?></td>
-                <td><?= $property->floor?></td>
-                <td><?= $property->area .' م'.'<sup>2</sup>'?></td>
-                <td><?= $property->status_name?></td>
-                <!--<td><a target="_blank" href="property/getPropertyDetails/<?= $property->property_id?>">التفاصيل</a></td>-->
-            </tr>
-            <?php }  ?>
-        </tbody>
+        
     </table>
     <a id="add_property_deal" class="btn btn-success" data-dismiss="modal">اضافة الوحدة للعملية</a>
 </form>
@@ -51,12 +28,23 @@ if ($properties) {?>
     $(function (){
         var base_url = "<?= base_url();?>";
         var deals_table = $('#property_deal_table').DataTable({
-            "paging": true,
-            "lengthChange": false,
+            "processing":true,
+            "serverSide":true,
             "searching": false,
-            "ordering": true,
             "info": false,
-            "autoWidth": false           
+            "lengthChange": false,
+            "autoWidth": false,
+            "order":[],
+            "ajax":{
+                url:base_url+"search_property/propertyGrid",
+                type:"POST"
+            },
+            "columnDefs":[
+                {
+                    "targets":[0,10],
+                    "orderable":false
+                }
+            ]          
         }); // end of datatable
         
         // add the property to the deal when click it
