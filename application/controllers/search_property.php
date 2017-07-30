@@ -3,6 +3,8 @@
 
 class Search_Property extends CI_Controller {
     
+    
+    
     public function __construct() {
         parent::__construct();
     }
@@ -14,7 +16,42 @@ class Search_Property extends CI_Controller {
         echo json_encode($data['properties']);        
     }
     
-    
+    /* 
+     * Make a Dynamic Datatable 
+    */
+   public function propertyGrid(){
+       // model_search_property autoloaded
+       $fetch_data = $this->model_search_property->make_datatable();
+       $data = array();
+       
+       foreach ($fetch_data as $row)
+       {
+           // create a row of datatable
+           $sub_array = array();
+           $sub_array[] = $row->property_id;
+           $sub_array[] = $row->property_type_name;           
+           $sub_array[] = $row->key_number;           
+           $sub_array[] = $row->owner_name;           
+           $sub_array[] = $row->owner_phone;           
+           $sub_array[] = $row->area_name;           
+           $sub_array[] = $row->requested_price;           
+           $sub_array[] = $row->installment_price;           
+           $sub_array[] = $row->floor;           
+           $sub_array[] = $row->area;           
+           $sub_array[] = $row->status_name;           
+           
+           $data[] = $sub_array;
+       }
+       
+       $output = array(
+           "draw"               => intval($this->input->post("draw")),
+           "recordsTotal"       => $this->model_search_property->get_all_data(),
+           "recordsFiltered"    => $this->model_search_property->get_filtered_data(),
+           "data"              => $data
+       );
+       echo json_encode($output);
+   } // end of propertyGrid
+    /**************************************************************************/
     public function getPropertiesTable()
     {
         $data['properties'] = $this->model_search_property->getProperties();  

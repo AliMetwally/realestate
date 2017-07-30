@@ -4,7 +4,76 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Model_search_Property extends CI_Model {
-
+    /*
+     * Make a Dynamic Datatable
+     * That get properties data from view v_property_data
+     */
+    
+    //column to display
+    var $select_column = array('property_id', 'property_type_name', 'key_number', 'owner_name',
+        'owner_phone', 'area_name', 'requested_price', 'installment_price', 'floor', 'area', 'status_name');
+    
+    var $data_source = 'v_property_data'; // a view that contains data 
+    
+    // column to allow order features
+    var $order_column = array('property_id', 'property_type_name', 'key_number', 'owner_name',
+        'owner_phone', 'area_name', 'requested_price', 'installment_price', 'floor', 'area', 'status_name');
+    
+    public function make_query()
+    {
+        $this->db->select($this->select_column);
+        $this->db->form($this->data_source);
+        
+        // define in which column to search 
+        if (isset($_POST["search"]["value"]))
+        {
+            $this->db->like('owner_name', $_POST["search"]["value"]);
+        }
+        if (isset($_POST["order"]))
+        {
+            $this->db->order_by($this->order_column[$_POST["order"][0]['column']], $_POST["order"][0]['dir']);
+        }
+        else
+        {
+            $this->db->order_by('property_id', 'DESC');
+        }
+    } 
+    // end of make query 
+    /**************************************************************************/
+    public function make_datatable()
+    {
+        $this->make_query();
+        if ($this->input->post("length") != -1 )
+        {
+            $this->db->limit($this->input->post("length"), $this->input->post("start"));
+        }
+        
+        $query = $this->db->get();
+        return $query->result();
+    } 
+    // end of make_datatable    
+    /**************************************************************************/
+    
+    function get_filtered_data()
+    {
+        $this->make_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    // end of get_filtered_data
+    /**************************************************************************/
+    function get_all_data()
+    {
+        $this->db->select('*');
+        $this->db->from($this->data_source);
+        return $this->db->count_all_results();
+    }
+    //get_all_data
+    /**************************************************************************/
+    /*
+     * ******************************************************
+     * ******************************************************
+     */
     public function getProperties() {
         $data = $this->input->get();
         $where = array(); // search array
