@@ -56,10 +56,10 @@ class Search_Property extends CI_Controller {
     /**************************************************************************/
     public function getPropertiesTable()
     {
-        $data['properties'] = $this->model_search_property->getProperties();  
+        //$data['properties'] = $this->model_search_property->getProperties();  
         //echo $this->db->last_query();
-        
-        $this->load->view('segment/deals/result_property_segment', $data);
+        $data['data'] = $this->input->get();
+        $this->load->view('segment/deals/result_property_segment',$data);
     }
     
     public function getPropertiesTableNonExist()

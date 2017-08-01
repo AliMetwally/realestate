@@ -1,5 +1,3 @@
-<?php
-if ($properties) {?>
 <form>    
     <table id="property_deal_table" class="table table-bordered table-hover">
         <thead>
@@ -22,7 +20,6 @@ if ($properties) {?>
     <a id="add_property_deal" class="btn btn-success" data-dismiss="modal">اضافة الوحدة للعملية</a>
 </form>
 
-<?php } // EO IF ?>
 
 <script>
     $(function (){
@@ -37,7 +34,9 @@ if ($properties) {?>
             "order":[],
             "ajax":{
                 url:base_url+"search_property/propertyGrid",
-                type:"POST"
+                type:"POST",
+                // this data from search_property/getPropertiesTable controller 
+                data: <?= json_encode($data)?> // the data sent form the search parameters 
             },
             "columnDefs":[
                 {
