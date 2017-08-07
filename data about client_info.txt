@@ -1,0 +1,34 @@
+tables 
+--------
+deal_sales : s, 
+deals d,
+client c,
+deals_follow_up f,
+lkp_deal_status t,
+user u 
+
+columns 
+---------
+client_id : from deal_sales
+deal_id : deal_sales
+ÇÓã ÇáÚãíá : from users
+Êáíİæä : from client
+äæÚ ÇáÚãíá : client_status (use case) from client
+ÊÇÑíÎ ÇáÚãáíÉ : created_date from deals
+date number : 
+ÍÇáÉ ÇáÚãáíÉ 
+ÇáæÍÏÉ ÇáãÍÏÏÉ : property_name calculated based on property_id from deals
+ÇÎÑ ãÊÇÈÚÉ : last_follow_date from deals_follow_up use max aggregate
+ÇáãäÏæÈ : username from users
+ÊŞííã ÇáÚãíá : 
+client_flag : client_rank (calculated) based on deal_id from deal_sales
+äæÚ ÇáÚãíá : client_flag 
+
+-----------------------------------------
+calculated fields 
+
+sales_calls : ãßÇáãÇÊ ÇáãäÏæÈ based on deal_id
+client_calls : ãßÇáãÇÊ ÇáÚãíá based on deal_id
+visits 
+property_view
+client_rank
