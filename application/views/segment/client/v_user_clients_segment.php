@@ -70,17 +70,7 @@
                         </div>
                         
                         <!-- search rang max -->
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="control-label" for="max_date_picker" >تقييم العميل</label>
-                                <select type="text" class="form-control" name="filter_client_rank" id="filter_client_rank">
-                                    <option value="0">اختر تقييم العميل</option>
-                                    <option value="3">عميل درجة اولي</option>
-                                    <option value="2">عميل درجة ثانية</option>
-                                    <option value="1">عميل درجة ثالثة</option>
-                                </select>
-                            </div> <!-- / .form-group -->
-                        </div>
+                        
                         <!--نوع العميل-->
                         <div class="col-md-2">
                             <div class="form-group">
@@ -117,9 +107,9 @@
                             <th>date number</th>
                             <th>حالة العملية</th>
                             <th>الوحدة المحددة</th>
-                            <th> اخر متابعة</th>
+                            <!--<th> اخر متابعة</th>-->
                             <th>المندوب</th>
-                            <th>تقييم العميل</th>
+                            <!--<th>تقييم العميل</th>-->
                             <th>client_flag</th>
                             <th>نوع العميل</th>
                         </tr>
@@ -128,19 +118,9 @@
                         <?php
                         foreach ($user_clients as $client) {
                             $deal_create_date = new DateTime($client->deal_created_date);
-                            $last_follow_date = new DateTime($client->last_follow_date);
+//                            $last_follow_date = new DateTime($client->last_follow_date);
                             
-                            // define the row color 
-                            switch ($client->client_rank)
-                            {
-                                case 3: $client_color = "success";
-                                break;
-                                case 2: $client_color = "info";
-                                break;
-                                case 1: $client_color = "moderate_client";
-                                break;
-                                default : $client_color ="";
-                            }
+                            
                         
                             switch ($client->client_flag )
                             {   
@@ -151,7 +131,7 @@
                             }
                             
                             ?>
-                        <tr class="<?= $client_color;?>" data-toggle="modal" data-target="#myModal">
+                        <tr class="" data-toggle="modal" data-target="#myModal">
                                 <td><?= $client->user_id ?></td>
                                 <td><?= $client->client_id ?></td>
                                 <td><?= $client->deal_id ?></td>
@@ -162,9 +142,9 @@
                                 <td><?= date_format($deal_create_date, 'Ymd') ?></td>
                                 <td><?= $client->status_name ?></td>
                                 <td><?= $client->property_name ?></td>
-                                <td><?= date_format($last_follow_date, 'Y/m/d') ?></td>
+                                <!--<td><?= date_format($last_follow_date, 'Y/m/d') ?></td>-->
                                 <td><?= $client->username ?></td>                                
-                                <td><?= $client->client_rank ?></td> 
+<!--                                <td><?= $client->client_rank ?></td> -->
                                 <td><?= $client->client_flag?></td>
                                 <td><?= $client_flg ?></td>                                
                             </tr>
@@ -262,7 +242,7 @@
             "lengthChange": false,
             "info": false,
             "columnDefs": [{
-                    "targets": [0, 1, 2, 7,12,13],
+                    "targets": [0, 1, 2, 7,11],
                     "visible": false,
                     "searchable": true
                 }]
@@ -329,11 +309,13 @@
             client_table.column(11).search($('#filter_sales option:selected').text()).draw();
         });
         
+        /*
+         * Remove Action related to Client Rank
         $('#filter_client_rank').change(function () {
             console.log($('#filter_client_rank option:selected').val());
             client_table.column(12).search($('#filter_client_rank option:selected').val()).draw();
         });
-        
+        */
         $('#filter_client_flag').change(function () {
             console.log($('#filter_client_flag option:selected').val());
             client_table.column(13).search($('#filter_client_flag option:selected').val()).draw();
